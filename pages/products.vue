@@ -1,0 +1,4 @@
+<template>
+    <Products />
+    </template>
+    
