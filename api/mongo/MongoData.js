@@ -9,7 +9,7 @@ const GetUsers = async () => {
 
 //Insert new document
 const insertAccount = async(id, firstname, lastname) => {
-return await user.insertOne({id: id, firstname: firstname, lastname: lastname, edit: false})
+    return await user.insertOne({id: parseInt(id), firstname: firstname, lastname: lastname, edit: false});
 };
 
 //Update Document
@@ -18,10 +18,11 @@ const updateAccount = async(id, firstname, lastname) =>{
         firstname: firstname,
         lastname: lastname
     }});
-}
+};
 
 //Delete a Document
 const deleteAccount = async (id) => {
-    return user.deleteOne({id: parseInt(id)});
-}
+    return await user.deleteOne({id: parseInt(id)});
+};
+
 module.exports = {GetUsers, insertAccount, updateAccount, deleteAccount};
