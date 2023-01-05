@@ -5,7 +5,7 @@
       <br>
       <div class="form-inline" action="#">
       <input type="text" id="form-name" v-model="item.firstname" placeholder="First Name" class="form-control">
-      <input type="text" v-model="item.lastname" placeholder="Last Name" class="form-control" v-on:keyup.enter="addItem">
+      <input type="text" v-model="item.lastname" placeholder="Last Name" class="form-control">
       <button @click="addItem" class="btn btn-dark"><i class="fas fa-plus">Add</i></button>
         </div>
       <br><br>
@@ -17,15 +17,15 @@
         </thead>
         <tr v-for="item in items" :key="item.firstname">
           <td>
-            <input v-if="item.edit" type="text" v-model="item.firstname"  v-on:keyup.enter="item.edit = !item.edit">
+            <input v-if="item.edit" type="text" v-model="item.firstname">
             <span v-else>{{item.firstname}} </span>
           </td>
           <td>
-            <input v-if="item.edit" type="text" v-model="item.lastname" v-on:keyup.enter="item.edit = !item.edit">
+            <input v-if="item.edit" type="text" v-model="item.lastname">
             <span v-else>{{item.lastname}} </span>
           </td>
-          <td><button @click="item.edit = !item.edit" class="btn btn-info"><i class="far fa-edit">edit</i></button>
-            <button @click="removeItem(index)" class="btn btn-danger"><i class="far fa-trash-alt">delete</i></button></td>
+          <td><button @click="ItemEdit(item)" class="btn btn-info"><i class="far fa-edit">edit</i></button>
+            <button @click="removeItem(item)" class="btn btn-danger"><i class="far fa-trash-alt">delete</i></button></td>
         </tr>
       </table>
   </div>
@@ -34,27 +34,69 @@
   </template>
   
   <script scope>
+  let url = "http://localhost:3002/users";
     export default {
       data() {
       return {
-        item: {firstname: "", lastname: "", edit: false},
-        items: []
+        item: {id: 0, firstname: "", lastname: "", edit: false},
+        items: [],
+        tempData: []
       }
     },
     methods:{
-      addItem() {
-        this.items.push({
-          firstname:this.item.firstname, lastname:this.item.lastname, edit: false}
-          );
+      async addItem() {
+        await this.$axios.$post(url + '/insert', this.item)
+        .then((res) => {
+          console.log(res);
+          this.GetAllData();
+        })
+        .catch((err) => console.log(err));
         this.item = [];
-        // eslint-disable-next-line no-undef
-       
       },
-      removeItem(index){
-        this.items.splice(index, 1)
+      async removeItem(item){
+        await this.$axios.$post(url + '/delete', {id: item.id})
+        .then((res) => {
+          console.log(res);
+          this.GetAllData();
+      })
+      .catch((err) => console.log(err));
+      },
+      async GetAllData(){
+        this.items = await this.$axios.$get(url)
+        .then((res) => {
+          console.log(res);
+          this.tempData = res;
+          console.log(this.items);
+        })
+        .catch((err) => console.log(err));
+
+        this.items = this.tempData;
+      },
+      async ItemEdit(item) //For Updating
+      {
+        if(!item.edit)
+        {
+          item.edit = !item.edit
+        }
+        else
+        {
+          item.edit = !item.edit
+          await this.$axios.$post(url + '/update', {id: item.id, firstname: item.firstname, lastname: item.lastname})
+          .then((res) => {
+            console.log(res);
+            this.GetAllData();
+          })
+          .catch((err) => console.log(err));
+        }
+      },
+      async GetCurrentID(){
+        this.item.id = Math.max.apply(Math, this.items.map(function(o) { return o.id; })) + 1;
       }
+    },
+    async mounted(){
+      await this.GetAllData();
     }
-    }
+  }
   </script>
   
   <style scoped>
