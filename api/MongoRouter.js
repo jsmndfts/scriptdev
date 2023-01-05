@@ -10,6 +10,7 @@ router.get('/', async (ctx, next) => {
 })
 //Insert New Document
 router.post('/insert', async (ctx, next) =>{
+    console.log("Router Data : " + ctx.request.body);
     if(!ctx.request.body.id || !ctx.request.body.firstname || !ctx.request.body.lastname)
     {
         ctx.response.status = 404;
@@ -30,20 +31,21 @@ router.post('/insert', async (ctx, next) =>{
 
 //Update Document
 router.post('/update', async (ctx, next) => {
-    if(!ctx.request.body.id || !ctx.request.body.firstname || !ctx.request.lastname)
+    if(!ctx.request.body.id || !ctx.request.body.firstname || !ctx.request.body.lastname)
     {
+        console.log("Missing Fields");
         ctx.response.status = 404;
         ctx.body = "Missing fields";
     }
     else
     {
-        var res = await updateAccount(ctx.request.body.id, ctx.request.body.firstname, ctx.request.lastname)
+        var res = await updateAccount(ctx.request.body.id, ctx.request.body.firstname, ctx.request.body.lastname)
+        console.log(res);
         if(res)
         {
             ctx.response.status = 201;
             ctx.body = "Successful Update";
             console.log("Success Update");
-
         }
 
     }
@@ -59,7 +61,9 @@ router.post('/delete', async (ctx, next) =>{
     }
     else
     {
+        console.log(ctx.request.body.id);
         var res = await deleteAccount(ctx.request.body.id);
+        console.log("Deleteing Res : " + res);
         if(res)
         {
             ctx.response.status = 201;

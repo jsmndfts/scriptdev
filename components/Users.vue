@@ -45,13 +45,15 @@
     },
     methods:{
       async addItem() {
+        console.log(this.item.id);
         await this.$axios.$post(url + '/insert', this.item)
         .then((res) => {
           console.log(res);
-          this.GetAllData();
+          this.item = {id: 0, firstname: "", lastname: "", edit: false};
         })
         .catch((err) => console.log(err));
-        this.item = [];
+        this.GetAllData();
+        this.GetCurrentID();
       },
       async removeItem(item){
         await this.$axios.$post(url + '/delete', {id: item.id})
@@ -71,6 +73,7 @@
         .catch((err) => console.log(err));
 
         this.items = this.tempData;
+        this.GetCurrentID();
       },
       async ItemEdit(item) //For Updating
       {
@@ -81,15 +84,15 @@
         else
         {
           item.edit = !item.edit
-          await this.$axios.$post(url + '/update', {id: item.id, firstname: item.firstname, lastname: item.lastname})
+          console.log(item);
+          await this.$axios.$post(url + '/update', item)
           .then((res) => {
             console.log(res);
-            this.GetAllData();
           })
           .catch((err) => console.log(err));
         }
       },
-      async GetCurrentID(){
+      GetCurrentID(){
         this.item.id = Math.max.apply(Math, this.items.map(function(o) { return o.id; })) + 1;
       }
     },
