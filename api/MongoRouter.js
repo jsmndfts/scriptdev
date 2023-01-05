@@ -39,8 +39,7 @@ router.post('/update', async (ctx, next) => {
     }
     else
     {
-        var res = await updateAccount(ctx.request.body.id, ctx.request.body.firstname, ctx.request.body.lastname)
-        console.log(res);
+        var res = await updateAccount(ctx.request.body.id, ctx.request.body.firstname, ctx.request.body.lastname);
         if(res)
         {
             ctx.response.status = 201;
@@ -63,7 +62,6 @@ router.post('/delete', async (ctx, next) =>{
     {
         console.log(ctx.request.body.id);
         var res = await deleteAccount(ctx.request.body.id);
-        console.log("Deleteing Res : " + res);
         if(res)
         {
             ctx.response.status = 201;
