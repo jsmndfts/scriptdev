@@ -7,10 +7,10 @@
     </div>
     <form class="user">
       <div class="mb-3">
-        <input id="exampleInputEmail" class="form-control form-control-user" type="email" aria-describedby="emailHelp" placeholder="Enter Email Address..." name="email" />
+        <input id="EmailInput" v-model="Email" class="form-control form-control-user" type="email" aria-describedby="emailHelp" placeholder="Enter Email Address..." name="email" />
       </div>
       <div class="mb-3">
-        <input id="exampleInputPassword" class="form-control form-control-user" type="password" placeholder="Password" name="password" />
+        <input id="PasswordInput" v-model="Password" class="form-control form-control-user" type="password" placeholder="Password" name="password" />
       </div>
       <div class="mb-3">
         <div class="custom-control custom-checkbox small">
@@ -21,7 +21,7 @@
         </div>
       </div>
       <button class="btn btn-primary d-block btn-user w-100" type="submit">
-        <NuxtLink to="/Dashboard" style="color: white;">Login</NuxtLink>
+        <NuxtLink to="/Dashboard" id="Login" style="color: white;">Login</NuxtLink>
       </button>
     </form>
     <div class="text-center">
@@ -36,3 +36,14 @@
  
  
 </template>
+
+<script>
+export default{
+  data(){
+    return{
+      Email: "",
+      Password: ""
+    }
+  }
+}
+</script>
