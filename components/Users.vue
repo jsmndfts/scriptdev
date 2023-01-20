@@ -4,12 +4,12 @@
     <div class="container">
       <br>
       <div class="form-inline" action="#">
-      <input type="text" id="form-name" v-model="item.firstname" placeholder="First Name" class="form-control">
-      <input type="text" v-model="item.lastname" placeholder="Last Name" class="form-control">
-      <button @click="addItem" class="btn btn-dark"><i class="fas fa-plus">Add</i></button>
+      <input type="text" id="FirstName" v-model="item.firstname" placeholder="First Name" class="form-control">
+      <input type="text" id="LastName" v-model="item.lastname" placeholder="Last Name" class="form-control">
+      <button @click="addItem" id="AddUser" class="btn btn-dark"><i class="fas fa-plus">Add</i></button>
         </div>
       <br><br>
-      <table class="table table-striped table-bordered table-sm">
+      <table id="UserTable" class="table table-striped table-bordered table-sm">
         <thead class="thead-light">
           <th>First Name</th>
           <th>Last Name</th>
@@ -18,11 +18,11 @@
         <tr v-for="item in items" :key="item.firstname">
           <td>
             <input v-if="item.edit" type="text" v-model="item.firstname">
-            <span v-else>{{item.firstname}} </span>
+            <span v-else>{{item.firstname}}</span>
           </td>
           <td>
             <input v-if="item.edit" type="text" v-model="item.lastname">
-            <span v-else>{{item.lastname}} </span>
+            <span v-else>{{item.lastname}}</span>
           </td>
           <td><button @click="ItemEdit(item)" class="btn btn-info"><i class="far fa-edit">edit</i></button>
             <button @click="removeItem(item)" class="btn btn-danger"><i class="far fa-trash-alt">delete</i></button></td>
