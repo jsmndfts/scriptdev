@@ -7,8 +7,8 @@ describe('Check Local API', () => {
         //Assert Url
         cy.url().should('eq', url);
 
-        cy.get('#EmailInput').type('pamela@mail.com');
-        cy.get('#EmailInput').should('have.value', 'pamela@mail.com');
+        cy.get('#EmailInput').type('kimberly@mail.com');
+        cy.get('#EmailInput').should('have.value', 'kimberly@mail.com');
         cy.get('#PasswordInput').type('Password123');
         cy.get('#PasswordInput').should('have.value', 'Password123');
 
